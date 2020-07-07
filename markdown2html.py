@@ -5,13 +5,15 @@ if __name__ == '__main__':
 
     import sys
     from os import path
+    import re
+    import hashlib
 
-    mkd = {"#": "<h1>", "##": "<h2>", "###": "<h3>", "####": "<h4>", "#####": "<h5>", "######": "<h6>",}
-
+    mkd = {"#": "h1", "##": "h2", "###": "h3", "####": "h4", "#####": "h5", "######": "h6", "-": "ul", "*": "ol"}
 
     def convert_tittles(options):
-        writeT = line.replace("{} ".format(lineSplit[0]), "<{}>".format(mkd[lineSplit[0]]))
-        writeT = writeT[:-1] + ("</{}>\n".format(mkd[lineSplit[0]]))
+        etiq = mkd[lineSplit[0]] 
+        writeT = line.replace("{} ".format(lineSplit[0]), "<{}>".format(etiq))
+        writeT = writeT[:-1] + ("</{}>\n".format(etiq))
         fw.write(writeT)
 
     def text_inline(line, options):
@@ -126,14 +128,3 @@ if __name__ == '__main__':
     if not path.exists(sys.argv[1]):
         sys.stderr.write("Missing " + sys.argv[1] + '\n')
         exit(1)
-
-    """with open(sys.argv[1], mode="r") as x, open(sys.argv[2], mode="w") as y:
-        for line in x:
-            words = line.split(" ")
-            if words[0] in mkd:
-                htmlTag = mkd[words[0]]
-            htmlFile = line.replace(words[0], "{}".format(htmlTag))
-            htmlTag = htmlTag[:-1] + (" {}\n".format(htmlTag))
-            y.write(htmlTag)
-
-        exit(0)"""
